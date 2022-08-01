@@ -9,6 +9,10 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //JPA 표준 스펙 상, 엔티티는 기본적으로 default 생성자가 필요하다. (*파라미터 없이)
 @ToString(of ={"id", "username", "age"})
+@NamedQuery(
+        name = "Member.findByUsername",
+        query = "select m from Member m where m.username = :username"
+)
 public class Member {
 
     @Id
