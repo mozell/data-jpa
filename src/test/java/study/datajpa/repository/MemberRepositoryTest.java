@@ -11,6 +11,7 @@ import study.datajpa.entity.Team;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -185,4 +186,39 @@ class MemberRepositoryTest {
     }
 
 
+    @Test
+    public void returnType() throws Exception {
+        //given
+        Member m1 = new Member("AAA", 10);
+        Member m2 = new Member("BBB", 20);
+        memberRepository.save(m1);
+        memberRepository.save(m2);
+
+        //when1
+        List<Member>     aaa1 = memberRepository.findListByUsername("AAA");
+        Member           aaa2 = memberRepository.findMemberByUsername("AAA");
+        Optional<Member> aaa3 = memberRepository.findOptionalByUsername("AAA");
+
+        //then1
+        System.out.println("aaa1 = " + aaa1 + "  type : "+aaa1.getClass());
+        System.out.println("aaa2 = " + aaa2 + "  type : "+aaa2.getClass());
+        System.out.println("aaa3 = " + aaa3 + "  type : "+aaa3.getClass());
+
+        //when1
+        List<Member>     asdasd1 = memberRepository.findListByUsername("asdasd");
+        Member           asdasd2 = memberRepository.findMemberByUsername("asdasd");
+        Optional<Member> asdasd3 = memberRepository.findOptionalByUsername("asdasd");
+
+        //then1
+        System.out.println("asdasd1 = " + asdasd1 ); // [] , size=0   !주의
+        System.out.println("asdasd2 = " + asdasd2 ); // null          !주의
+        System.out.println("asdasd3 = " + asdasd3 );
+
+
+        Member m3 = new Member("AAA", 20);
+        memberRepository.save(m3);
+
+        //Optional<Member> aaa4 = memberRepository.findOptionalByUsername("AAA");
+        //System.out.println("aaa4 = " + aaa4 ); // NonUniqueResultException: query did not return a unique result: 2
+    }
 }
