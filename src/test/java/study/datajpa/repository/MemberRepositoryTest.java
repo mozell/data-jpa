@@ -449,4 +449,48 @@ class MemberRepositoryTest {
             System.out.println("member.team = " + member.getTeam().getName());
         }
     }
+
+
+    @Test
+    public void  queryHint() throws Exception {
+        //given
+        Member member1 = memberRepository.save(new Member("member1", 10));
+        em.flush();
+        em.clear();
+
+        //when
+        Member findMember = memberRepository.findReadOnlyByUsername("member1");
+        findMember.setUsername("username2");
+        em.flush();
+
+    }
+
+    @Test
+    public void  findReadOnlyCountByUsername() throws Exception {
+        //given
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member1", 11));
+        memberRepository.save(new Member("member1", 12));
+        memberRepository.save(new Member("member2", 13));
+        memberRepository.save(new Member("member2", 14));
+
+        int age = 10;
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+        //when
+        Page<Member> result = memberRepository.findReadOnlyCountByUsername("member1", pageRequest);
+
+    }
+
+    @Test
+    public void  lock() throws Exception {
+        //given
+        Member member1 = memberRepository.save(new Member("member1", 10));
+        em.flush();
+        em.clear();
+
+        //when
+        List<Member> result = memberRepository.findLockByUsername("member1");
+
+    }
 }
