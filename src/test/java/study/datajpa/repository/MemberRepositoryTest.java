@@ -14,6 +14,7 @@ import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +31,7 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
     @Autowired
     TeamRepository teamRepository;
-    @Autowired
+    @PersistenceContext
     EntityManager em;
 
     @Test
@@ -492,5 +493,10 @@ class MemberRepositoryTest {
         //when
         List<Member> result = memberRepository.findLockByUsername("member1");
 
+    }
+
+    @Test
+    public void callCustom() throws Exception {
+        List<Member> result = memberRepository.findMemberCustom();
     }
 }
